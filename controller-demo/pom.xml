@@ -30,6 +30,7 @@
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-jasper</artifactId>
+			<version>9.0.41</version>
 		</dependency>
 
 
