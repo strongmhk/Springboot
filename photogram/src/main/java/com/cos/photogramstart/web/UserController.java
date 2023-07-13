@@ -24,6 +24,7 @@ public class UserController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         PrincipalDetails mPrincipalDetails = (PrincipalDetails) auth.getPrincipal();
         System.out.println("직접 찾은 세션 정보 : " + mPrincipalDetails.getUser());
+
         return "user/update";
     }
 }
