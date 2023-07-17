@@ -16,6 +16,11 @@ function update(userId, event) {
         alert("회원정보가 성공적으로 수정되었습니다.");
         location.href=`/user/${userId}`;
     }).fail(error=>{ // HttpStatus 상태코드 200번대가 아닐 때
-        alert(JSON.stringify(error.responseJSON.data.name));
+        if(error.data == null){
+            alert(error.responseJSON.message);
+        }else{
+            alert(JSON.stringify(error.responseJSON.data));
+        }
+
     });
 }
