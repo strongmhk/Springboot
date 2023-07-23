@@ -5,7 +5,6 @@ import com.group.libraryapp.dto.user.request.UserCreateRequest;
 import com.group.libraryapp.dto.user.request.UserUpdateRequest;
 import com.group.libraryapp.dto.user.response.UserResponse;
 import com.group.libraryapp.service.UserService;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -41,6 +40,7 @@ public class UserController {
         userService.updateUser(request);
 
     }
+
 
     @DeleteMapping("/user")
     public void deleteUser(@RequestParam String name){
