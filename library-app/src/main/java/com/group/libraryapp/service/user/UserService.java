@@ -1,4 +1,4 @@
-package com.group.libraryapp.service;
+package com.group.libraryapp.service.user;
 
 import com.group.libraryapp.dto.user.request.UserCreateRequest;
 import com.group.libraryapp.dto.user.request.UserUpdateRequest;
