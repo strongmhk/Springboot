@@ -19,6 +19,7 @@ public class UserController {
 
     private final UserService userService;
 
+
     @GetMapping("/user/{pageUserId}")
     public String profile(@PathVariable int pageUserId, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails){
         UserProfileDto dto = userService.회원프로필(pageUserId, principalDetails.getUser().getId());
