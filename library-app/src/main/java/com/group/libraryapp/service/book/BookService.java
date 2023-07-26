@@ -50,8 +50,9 @@ public class BookService {
         User user = userRepository.findByName(request.getUserName())
                 .orElseThrow(IllegalArgumentException::new);
         // 5. 유저 정보와 책 정보를 기반으로 UserLoanHistory에 저장
+        user.loanBook(book.getName());
 
-        userLoanHistoryRepository.save(new UserLoanHistory(user, book.getName()));
+//        userLoanHistoryRepository.save(new UserLoanHistory(user, book.getName()));
 
 
 
@@ -62,13 +63,18 @@ public class BookService {
         User user = userRepository.findByName(request.getUserName())
                 .orElseThrow(IllegalArgumentException::new);
 
-        UserLoanHistory history = userLoanHistoryRepository.findByUserIdAndBookName(user.getId(), request.getBookName())
+        /*UserLoanHistory history = userLoanHistoryRepository.findByUserIdAndBookName(user.getId(), request.getBookName())
                 .orElseThrow(IllegalArgumentException::new);
 
-        history.doReturn();
-//        userLoanHistoryRepository.save(history); // 영속성 컨텍스트가 자동 변경 감지를 통해 수정사항 반영해줌
+        history.doReturn();*/
+
+        System.out.println("Hello");
+        user.returnBook(request.getBookName()); // 위의 코드를 user 도메인 안으로 옮기고 service에서는 UserLoanHistory를 신경쓸 필요없이 user만 호출
+        // jpa의 cascade, orphanRemoval 옵션을 이용해 서비스 계층에서 여러 도메인을 호출하지 않고 도메인끼리 협력하도록 함
 
     }
+
+
 
 
 }
