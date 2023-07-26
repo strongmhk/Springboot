@@ -17,5 +17,4 @@ public class UserProfileDto {
     private int subscribeCount;;
     private User user;
 
-
 }
