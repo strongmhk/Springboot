@@ -43,7 +43,7 @@ public class Image { // 이미지 -> 유저 = 1 : 1, 유저 -> 이미지 = 1 : N
 
 
     // 이미지 좋아요
-    @JsonIgnoreProperties({"image"})
+    @JsonIgnoreProperties({"image"}) // Image에서 Likes로 갈 때,
     @OneToMany(mappedBy = "image") // OneToMany -> LAZY , ManyToOne -> EAGER
     private List<Likes> likes;
 
@@ -54,6 +54,9 @@ public class Image { // 이미지 -> 유저 = 1 : 1, 유저 -> 이미지 = 1 : N
 
     @Transient // DB에 컬럼이 만들어지지 않는다
     private boolean likeState;
+
+    @Transient
+    private int likeCount;
 
     @PrePersist // 디비에 insert 되기 직전에 실행
     public void createDate(){
