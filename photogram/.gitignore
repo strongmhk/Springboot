@@ -19,7 +19,7 @@ target/
 *.iml
 *.ipr
 .lock
-
+.gradle
 
 ### NetBeans ###
 /nbproject/private/
