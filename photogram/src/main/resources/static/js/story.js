@@ -30,59 +30,74 @@ function storyLoad() {
 }
 
 storyLoad();
+
 function getStoryItem(image) {
 	let item = `<div class="story-list__item">
-\t<div class="sl__item__header">
-\t\t<div>
-\t\t\t<img class="profile-image" src="/upload/${image.user.profileImageUrl}"
-\t\t\t\tonerror="this.src='/images/person.jpeg'" />
-\t\t</div>
-\t\t<div>${image.user.username}</div>
-\t</div>
+	<div class="sl__item__header">
+		<div>
+			<img class="profile-image" src="/upload/${image.user.profileImageUrl}"
+				onerror="this.src='/images/person.jpeg'" />
+		</div>
+		<div>${image.user.username}</div>
+	</div>
 
-\t<div class="sl__item__img">
-\t\t<img src="/upload/${image.postImageUrl}" />
-\t</div>
+	<div class="sl__item__img">
+		<img src="/upload/${image.postImageUrl}" />
+	</div>
 
-\t<div class="sl__item__contents">
-\t\t<div class="sl__item__contents__icon">
+	<div class="sl__item__contents">
+		<div class="sl__item__contents__icon">
 
-\t\t\t<button>
-\t\t\t\t<i class="fas fa-heart active" id="storyLikeIcon-1" onclick="toggleLike()"></i>
-\t\t\t</button>
-\t\t</div>
+			<button>`;
 
-\t\t<span class="like"><b id="storyLikeCount-1">3 </b>likes</span>
+	if(image.likeState){
+		item += `<i class="fas fa-heart active" id="storyLikeIcon-${image.id}" onclick="toggleLike(${image.id})"></i>`;
+	}else{
+		item += `<i class="far fa-heart" id="storyLikeIcon-${image.id}" onclick="toggleLike(${image.id})"></i>`;
+	}
 
-\t\t<div class="sl__item__contents__content">
-\t\t\t<p>${image.caption}</p>
-\t\t</div>
 
-\t\t<div id="storyCommentList-1">
+	item += `
+			</button>
+		</div>
 
-\t\t\t<div class="sl__item__contents__comment" id="storyCommentItem-1"">
-\t\t\t\t<p>
-\t\t\t\t\t<b>Lovely :</b> 부럽습니다.
-\t\t\t\t</p>
+		<span class="like"><b id="storyLikeCount-${image.id}">${image.likeCount} </b>likes</span>
 
-\t\t\t\t<button>
-\t\t\t\t\t<i class="fas fa-times"></i>
-\t\t\t\t</button>
+		<div class="sl__item__contents__content">
+			<p>${image.caption}</p>
+		</div>
 
-\t\t\t</div>
+		<div id="storyCommentList-${image.id}">`;
 
-\t\t</div>
+	image.comments.forEach((comment)=>{
+		item +=`<div class="sl__item__contents__comment" id="storyCommentItem-${comment.id}">
+				<p>
+					<b>${comment.user.username} :</b> ${comment.content}
+				</p>`;
 
-\t\t<div class="sl__item__input">
-\t\t\t<input type="text" placeholder="댓글 달기..." id="storyCommentInput-1" />
-\t\t\t<button type="button" onClick="addComment()">게시</button>
-\t\t</div>
+		if(principalId == comment.user.id){
+			item += `	<button onclick="deleteComment(${comment.id})">
+										<i class="fas fa-times"></i>
+									</button>`;
+		}
 
-\t</div>
-</div>
-`;
+		item += `	
+			</div>`;
+
+	});
+
+
+	item += `
+		</div>
+
+		<div class="sl__item__input">
+			<input type="text" placeholder="댓글 달기..." id="storyCommentInput-${image.id}" />
+			<button type="button" onClick="addComment(${image.id})">게시</button>
+		</div>
+
+	</div>
+</div>`;
 	return item;
-
 }
 
 // (2) 스토리 스크롤 페이징하기
@@ -92,9 +107,8 @@ $(window).scroll(() => {
 	// console.log("윈도우 높이",$(window).height());
 
 	let checkNum = $(window).scrollTop() - ($(document).height() - $(window).height());
-	console.log(checkNum);
 
-	if(checkNum < 1 && checkNum > -1){
+	if(checkNum < 10 && checkNum > -10){
 		page++;
 		storyLoad();
 	}
@@ -102,8 +116,8 @@ $(window).scroll(() => {
 
 
 // (3) 좋아요, 안좋아요
-function toggleLike() {
-	let likeIcon = $("#storyLikeIcon-1");
+function toggleLike(imageId) {
+	let likeIcon = $(`#storyLikeIcon-${imageId}`);
 	if (likeIcon.hasClass("far")) {
 		likeIcon.addClass("fas");
 		likeIcon.addClass("active");
