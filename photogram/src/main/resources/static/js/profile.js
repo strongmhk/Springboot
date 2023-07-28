@@ -112,7 +112,7 @@ function profileImageUpload(pageUserId, principalId) {
 
 	$.ajax({
 		type: "put",
-		url: `/api/user/${principalId}/profileUmageUrl`,
+		url: `/api/user/${principalId}/profileImageUrl`,
 		dataType: formData,
 		contentType: false, // 필수 : x-www-form-urlencoded로 파싱되는 것을 방지
 		processData: false, // 필수 : contentType을 false 줬을 때 QueryString 자동 설정됨. 해제
