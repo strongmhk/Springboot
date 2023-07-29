@@ -7,11 +7,13 @@ import com.cos.photogramstart.service.SubscribeService;
 import com.cos.photogramstart.service.UserService;
 import com.cos.photogramstart.web.dto.CMRespDto;
 import com.cos.photogramstart.web.dto.subscribe.SubscribeDto;
+import com.cos.photogramstart.web.dto.user.UserProfileDto;
 import com.cos.photogramstart.web.dto.user.UserUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -71,4 +73,14 @@ public class UserApiController {
         }
 
     }
+
+    // 테스트용 api
+    @GetMapping("/test/user/{pageUserId}")
+    public ResponseEntity<?> profile(@PathVariable int pageUserId, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails){
+        UserProfileDto dto = userService.회원프로필(pageUserId, principalDetails.getUser().getId());
+//        model.addAttribute("dto", dto);
+        return new ResponseEntity<>(new CMRespDto<>(1, "프로필 가져오기 성공", dto), HttpStatus.OK);
+    }
+
+
 }
