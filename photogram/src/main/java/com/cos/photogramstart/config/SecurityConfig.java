@@ -16,9 +16,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // super 삭제 -> 기존 시큐리티가 가지고 있는 기능이 다 비활성화됨.
+        // super.configure(http); // super 삭제 -> 기존 시큐리티가 가지고 있는 기능이 다 비활성화됨.
         http.csrf().disable();
         http.authorizeRequests()// 이 주소 경로로 요청이 들어오면
                 .antMatchers("/","/user/**", "/image/**", "/subscribe/**", "/comment/**", "/api/**")
