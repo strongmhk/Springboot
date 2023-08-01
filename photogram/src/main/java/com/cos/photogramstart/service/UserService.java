@@ -12,15 +12,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
-import java.util.function.Supplier;
+
 
 @RequiredArgsConstructor
 @Service
@@ -91,7 +89,7 @@ public class UserService {
     public User 회원수정(int id, User user){
         //1.영속화
         User userEntity = userRepository.findById(id).orElseThrow(() -> { return new CustomValidationApiException("찾을 수 없는 id입니다.")
-        ;}); // 1. 무조건 찾았다. 걱정마 get() 2. 못찾았어 익섹션 발동시킬게 orElseThrow()
+        ;}); // 1. 무조건 찾았다. 걱정마 get() 2. 못찾았어 익셉션 발동시킬게 orElseThrow()
 
         //2.영속화된 오브젝트를 수정 - 더티체킹 (업데이트 완료)
         userEntity.setName(user.getName());
@@ -106,5 +104,5 @@ public class UserService {
         userEntity.setGender(user.getGender());
 
         return userEntity;
-    } // 더티체킹이 일어나서 업데이트가 완료됨
+    } // 더티체킹이 일어나서 업데이트가 완료됨(영속성 컨텍스트가 자동으로 해줌)
 }
