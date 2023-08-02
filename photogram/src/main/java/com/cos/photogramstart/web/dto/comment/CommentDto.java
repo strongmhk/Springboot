@@ -13,4 +13,6 @@ public class CommentDto {
 
     @NotNull // null 체크
     private Integer imageId;
+
+    // toEntity가 필요없다.
 }

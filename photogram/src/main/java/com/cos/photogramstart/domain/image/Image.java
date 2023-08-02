@@ -1,5 +1,6 @@
 package com.cos.photogramstart.domain.image;
 
+import com.cos.photogramstart.domain.comment.Comment;
 import com.cos.photogramstart.domain.likes.Likes;
 import com.cos.photogramstart.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -49,6 +50,10 @@ public class Image { // 이미지 -> 유저 = 1 : 1, 유저 -> 이미지 = 1 : N
 
 
     // 댓글
+    @OrderBy("id DESC")
+    @JsonIgnoreProperties({"image"})
+    @OneToMany(mappedBy = "image", fetch = FetchType.LAZY)
+    private List<Comment> comments;
 
     private LocalDateTime createDate; // 데이터가 언제들어왔는지
 

@@ -7,6 +7,11 @@
 	(5) 댓글삭제
  */
 
+// (0) 현재 로그인한 사용자 아이디
+let principalId = $("#principalId").val();
+
+
+
 // (1) 스토리 로드하기
 
 let page = 0;
@@ -69,7 +74,7 @@ function getStoryItem(image) {
 
 		<div id="storyCommentList-${image.id}">`;
 
-	/*image.comments.forEach((comment)=>{
+	image.comments.forEach((comment)=>{
 		item +=`<div class="sl__item__contents__comment" id="storyCommentItem-${comment.id}">
 				<p>
 					<b>${comment.user.username} :</b> ${comment.content}
@@ -80,11 +85,10 @@ function getStoryItem(image) {
 										<i class="fas fa-times"></i>
 									</button>`;
 		}
-
 		item += `	
 			</div>`;
 
-	});*/
+	});
 
 
 	item += `
@@ -168,31 +172,54 @@ function toggleLike(imageId) {
 }
 
 // (4) 댓글쓰기
-function addComment() {
+function addComment(imageId) {
 
-	let commentInput = $("#storyCommentInput-1");
-	let commentList = $("#storyCommentList-1");
+	let commentInput = $(`#storyCommentInput-${imageId}`);
+	let commentList = $(`#storyCommentList-${imageId}`);
 
 	let data = {
+		imageId: imageId,
 		content: commentInput.val()
 	}
+
+	// alert(data.content);
+	// return;
 
 	if (data.content === "") {
 		alert("댓글을 작성해주세요!");
 		return;
 	}
 
-	let content = `
-			  <div class="sl__item__contents__comment" id="storyCommentItem-2""> 
+	$.ajax({
+		type: "post",
+		url: "/api/comment",
+		data: JSON.stringify(data),
+		contentType: "application/json; charset=utf-8",
+		dataType: "json"
+	}).done(res=>{
+		// console.log("성공", res);
+
+		let comment = res.data;
+
+		let content = `
+			  <div class="sl__item__contents__comment" id="storyCommentItem-${comment.id}""> 
 			    <p>
-			      <b>GilDong :</b>
-			      댓글 샘플입니다.
+			      <b>${comment.user.username}</b>
+			      ${comment.content}
 			    </p>
 			    <button><i class="fas fa-times"></i></button>
 			  </div>
 	`;
-	commentList.prepend(content);
-	commentInput.val("");
+		commentList.prepend(content);
+
+
+	}).fail(error=>{
+		console.log("오류", error);
+	})
+
+
+
+	commentInput.val(""); // input 필드 비워주기
 }
 
 // (5) 댓글 삭제
